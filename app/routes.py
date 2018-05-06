@@ -18,14 +18,10 @@ def index():
         'body': 'Another job done!'
         }
     ]
-    log_info = {"method": request.method,
-                "endpoint": request.endpoint,
-                "url": request.url,
-                "data": datetime.utcnow()
-             }
-
     log = MongoLord()
-    log.mongo_logging(log_info)
+    time = datetime.utcnow()
+    log.mongo_logging(request.method, request.endpoint,
+                      request.url, time)
     return render_template('index.html', title='World', user=user, posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -34,19 +30,13 @@ def login():
     if form.validate_on_submit():
         flash('Login requested for user {}, remember_me={}'.format(
                                     form.username.data, form.remember_me.data))
-        log_info = {"method": request.method,
-                    "endpoint": request.endpoint,
-                    "url": request.url,
-                    "data": datetime.utcnow()
-                 }
         log = MongoLord()
-        log.mongo_logging(log_info)
+        time = datetime.utcnow()
+        log.mongo_logging(request.method, request.endpoint,
+                          request.url, time)
         return redirect(url_for('index'))
-    log_info = {"method": request.method,
-                "endpoint": request.endpoint,
-                "url": request.url,
-                "data": datetime.utcnow()
-             }
     log = MongoLord()
-    log.mongo_logging(log_info)
+    time = datetime.utcnow()
+    log.mongo_logging(request.method, request.endpoint,
+                      request.url, time)
     return render_template('login.html', title='Sign In', form=form)

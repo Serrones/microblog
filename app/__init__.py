@@ -6,8 +6,6 @@ from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config['MONGO_DBNAME'] = Config.MONGO_DBNAME
-app.config['MONGO_URI'] = Config.MONGO_URI
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 mongo = PyMongo(app)
